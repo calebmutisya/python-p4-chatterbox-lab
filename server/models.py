@@ -11,4 +11,11 @@ db = SQLAlchemy(metadata=metadata)
 class Message(db.Model, SerializerMixin):
     __tablename__ = 'messages'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id= db.Column(db.Integer,primary_key=True)
+    username=db.Column(db.String(100),nullable=False)
+    body= db.Column(db.Text, nullable=False)
+    created_at= db.Column(db.DateTime, server_default= db.func.now(), nullable=False)
+    
+    def to_dict(self):
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+    
